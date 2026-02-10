@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cafe Menu</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #E8F5E9;
+    margin: 0;
+    padding: 15px;
+}
+
+.container {
+    max-width: 400px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.header img {
+    width: 90px;
+}
+
+.header h1 {
+    color: #4CAF50;
+    margin: 10px 0;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* TABS */
+.tabs {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: all 0.3s ease;
+}
+
+.tabs button {
+    border: none;
+    background: #C8E6C9;
+    padding: 6px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.tabs button.active {
+    background: #4CAF50;
+    color: white;
+}
+
+/* MENU ICON */
+.menu-btn {
+    display: none; /* hidden by default */
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* DROPDOWN */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    padding: 10px;
+    z-index: 10;
+}
+
+.dropdown button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background: #F1F8E9;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* CATEGORY */
+.menu-category {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.menu-category h2 {
+    margin: 0;
+    padding: 12px;
+    background: #F1F8E9;
+    cursor: pointer;
+}
+
+/* ITEMS */
+.menu-items {
+    max-height: 3000px;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 10px;
+}
+
+.menu-items.closed {
+    max-height: 0;
+    padding: 0 10px;
+}
+
+/* ITEM */
+.menu-item {
+    background: #F1F8E9;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.menu-item img {
+    width: 65px;
+    height: 65px;
+    border-radius: 10px;
+    margin-right: 12px;
+}
+
+.menu-item h3 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.menu-item p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.price {
+    margin-left: auto;
+    font-weight: bold;
+    color: #4CAF50;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+    <img src="logo_url.jpg">
+    <h1>Cafe Brand</h1>
+
+    <div class="header-row">
+        <button class="menu-btn" id="menu-btn" onclick="toggleDropdown()">☰</button>
+
+        <div class="tabs" id="tabs">
+            <button class="active" onclick="goToCategory('pizza', this)">🍕 Pizza</button>
+            <button onclick="goToCategory('salad', this)">🥗 Salads</button>
+            <button onclick="goToCategory('burger', this)">🍔 Burgers</button>
+            <button onclick="goToCategory('pasta', this)">🍝 Pasta</button>
+            <button onclick="goToCategory('hot', this)">☕ Hot Drinks</button>
+            <button onclick="goToCategory('cold', this)">🧊 Cold Drinks</button>
+            <button onclick="goToCategory('juice', this)">🧃 Juices</button>
+            <button onclick="goToCategory('dessert', this)">🍰 Desserts</button>
+        </div>
+    </div>
+
+    <div class="dropdown" id="dropdown">
+        <button onclick="goFromMenu('pizza')">🍕 Pizza</button>
+        <button onclick="goFromMenu('salad')">🥗 Salads</button>
+        <button onclick="goFromMenu('burger')">🍔 Burgers</button>
+        <button onclick="goFromMenu('pasta')">🍝 Pasta</button>
+        <button onclick="goFromMenu('hot')">☕ Hot Drinks</button>
+        <button onclick="goFromMenu('cold')">🧊 Cold Drinks</button>
+        <button onclick="goFromMenu('juice')">🧃 Juices</button>
+        <button onclick="goFromMenu('dessert')">🍰 Desserts</button>
+    </div>
+</div>
+
+<!-- CATEGORY SECTIONS -->
+<div class="menu-category" id="pizza">
+<h2 onclick="toggleMenu('pizza-items')">🍕 Pizza</h2>
+<div class="menu-items" id="pizza-items">
+<div class="menu-item"><img src="img.jpg"><h3>Pepperoni</h3><span class="price">$40</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="salad">
+<h2 onclick="toggleMenu('salad-items')">🥗 Salads</h2>
+<div class="menu-items" id="salad-items">
+<div class="menu-item"><img src="img.jpg"><h3>Greek Salad</h3><span class="price">$20</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="burger">
+<h2 onclick="toggleMenu('burger-items')">🍔 Burgers</h2>
+<div class="menu-items" id="burger-items">
+<div class="menu-item"><img src="img.jpg"><h3>Beef Burger</h3><span class="price">$30</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="pasta">
+<h2 onclick="toggleMenu('pasta-items')">🍝 Pasta</h2>
+<div class="menu-items" id="pasta-items">
+<div class="menu-item"><img src="img.jpg"><h3>Carbonara</h3><span class="price">$35</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="hot">
+<h2 onclick="toggleMenu('hot-items')">☕ Hot Drinks</h2>
+<div class="menu-items" id="hot-items">
+<div class="menu-item"><img src="img.jpg"><h3>Cappuccino</h3><span class="price">$8</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="cold">
+<h2 onclick="toggleMenu('cold-items')">🧊 Cold Drinks</h2>
+<div class="menu-items" id="cold-items">
+<div class="menu-item"><img src="img.jpg"><h3>Iced Coffee</h3><span class="price">$7</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="juice">
+<h2 onclick="toggleMenu('juice-items')">🧃 Juices</h2>
+<div class="menu-items" id="juice-items">
+<div class="menu-item"><img src="img.jpg"><h3>Mango Juice</h3><span class="price">$6</span></div>
+</div>
+</div>
+
+<div class="menu-category" id="dessert">
+<h2 onclick="toggleMenu('dessert-items')">🍰 Desserts</h2>
+<div class="menu-items" id="dessert-items">
+<div class="menu-item"><img src="img.jpg"><h3>Chocolate Cake</h3><span class="price">$7</span></div>
+</div>
+</div>
+
+</div>
+
+<script>
+function toggleMenu(id) {
+    document.getElementById(id).classList.toggle('closed');
+}
+
+function goToCategory(id, btn) {
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleDropdown() {
+    const d = document.getElementById('dropdown');
+    d.style.display = d.style.display === 'block' ? 'none' : 'block';
+}
+
+function goFromMenu(id) {
+    document.getElementById('dropdown').style.display = 'none';
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// DYNAMIC: Show menu icon only if tabs wrap
+function checkTabsOverflow() {
+    const tabs = document.getElementById('tabs');
+    const menuBtn = document.getElementById('menu-btn');
+
+    // Reset to measure
+    tabs.style.display = 'flex';
+
+    if (tabs.scrollHeight > tabs.clientHeight) {
+        tabs.style.display = 'none';
+        menuBtn.style.display = 'block';
+    } else {
+        tabs.style.display = 'flex';
+        menuBtn.style.display = 'none';
+    }
+}
+
+window.addEventListener('load', checkTabsOverflow);
+window.addEventListener('resize', checkTabsOverflow);
+</script>
+
+</body>
+</html>
